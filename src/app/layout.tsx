@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import localFont from "next/font/local";
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import NavBar from "@/components/NavBar";
+// putting '@' ,or import alias, in front of a path tells the computer to look in the local directory
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,12 +28,37 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <ClerkProvider>
+
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="min-h-screen">
+              {/* min-h-screen means minimum height of screen */}
+              <NavBar/>
+              <main className="py-8">
+                {/* py-8 mean padding in y direction */}
+                <div className="max-w-7xl mx-auto px-4">
+                  {/* container to center the content */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div className="hidden lg:block lg:col-span-3"> sidebar </div>
+                    <div className="lg:col-span-9">{children}</div>
+                  </div>
+                </div>
+              </main>
+            </div>
+
+          {/* wrapping children in themprovider gives this theme to all the children */}
+        </ThemeProvider>
       </body>
     </html>
+    </ClerkProvider>
   );
 }
