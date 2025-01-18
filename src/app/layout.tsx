@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import NavBar from "@/components/NavBar";
+import SideBar from "@/components/SideBar";
+import { Toaster } from "react-hot-toast";
 // putting '@' ,or import alias, in front of a path tells the computer to look in the local directory
 
 const geistSans = localFont({
@@ -48,7 +50,9 @@ export default function RootLayout({
                 <div className="max-w-7xl mx-auto px-4">
                   {/* container to center the content */}
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                    <div className="hidden lg:block lg:col-span-3"> sidebar </div>
+                    <div className="hidden lg:block lg:col-span-3"> 
+                      <SideBar/>
+                    </div>
                     <div className="lg:col-span-9">{children}</div>
                   </div>
                 </div>
@@ -56,6 +60,7 @@ export default function RootLayout({
             </div>
 
           {/* wrapping children in themprovider gives this theme to all the children */}
+          <Toaster position="top-center"/>
         </ThemeProvider>
       </body>
     </html>
