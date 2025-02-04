@@ -10,6 +10,7 @@ import { Loader2Icon } from 'lucide-react';
 import { SendIcon } from 'lucide-react';
 import { ImageIcon } from 'lucide-react';
 import { createPost } from '@/actions/post.action';
+import  ImageUpload  from '@/components/ImageUpload';
 import toast from 'react-hot-toast';
 
 function CreatePost() {
@@ -25,7 +26,7 @@ function CreatePost() {
         setIsPosting(true);
         try {
           const result = await createPost(content, imageUrl); // server action
-          if(result.success){
+          if(result?.success){
             // reset the form
             setContent('');
             setImageUrl('');
@@ -68,6 +69,19 @@ function CreatePost() {
                     
                 </div>
                 {/* todo hadle image upload */}
+                {(showImageUpload || imageUrl) && (
+                  <div className="border rounded-lg p-4">
+                    <ImageUpload 
+                      endpoint="postImage"
+                      value={imageUrl}
+                      onChange={(url) => {
+                        setImageUrl(url);
+                        if(!url) setShowImageUpload(false);
+                      }}
+                    />
+
+                  </div>
+                )}
 
                 <div className="flex items-center justify-between border-t pt-4">
                     <div className="flex space-x-2">
